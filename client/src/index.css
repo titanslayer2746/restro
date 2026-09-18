@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: 'inter', sans-serif;
+    background-color: #f5f3ee;
+    color: #16140f;
+}
+
+@layer components {
+    .mono-label {
+        @apply font-mono text-[11px] uppercase tracking-[0.16em] text-muted;
+    }
+
+    .panel {
+        @apply rounded-2xl border border-line bg-surface;
+    }
+
+    .field-label {
+        @apply mb-1.5 block font-mono text-[11px] uppercase tracking-wider text-muted;
+    }
+
+    .field {
+        @apply w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/60 focus:border-ink focus:outline-none focus:ring-2 focus:ring-ink/10;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-40;
+    }
+
+    .btn-accent {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-dark disabled:cursor-not-allowed disabled:opacity-40;
+    }
+
+    .btn-outline {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-paper disabled:cursor-not-allowed disabled:opacity-40;
+    }
+
+    .rule-dashed {
+        @apply border-t border-dashed border-ink/25;
+    }
+}
+
+/* Faint blueprint grid used on light, techy surfaces */
+.bg-grid {
+    background-image:
+        linear-gradient(to right, rgba(22, 20, 15, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(22, 20, 15, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Dotted floor used behind the floor plan */
+.bg-dots {
+    background-image: radial-gradient(rgba(22, 20, 15, 0.14) 1px, transparent 1px);
+    background-size: 18px 18px;
+}
+
+/* Torn / zigzag bottom edge of a thermal receipt or kitchen ticket */
+.receipt-edge {
+    height: 10px;
+    background:
+        linear-gradient(135deg, #fff 50%, transparent 50%) 0 0 / 10px 10px repeat-x,
+        linear-gradient(-135deg, #fff 50%, transparent 50%) 0 0 / 10px 10px repeat-x;
+}
+
+.ticket-shadow {
+    filter: drop-shadow(0 14px 18px rgba(22, 20, 15, 0.1));
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    animation: marquee 45s linear infinite;
+}
+
+@keyframes loadbar {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+}
+
+.animate-loadbar {
+    animation: loadbar 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-loadbar { animation: none; }
+}
+
+.scrollHide::-webkit-scrollbar{
+    display: none;
+}
