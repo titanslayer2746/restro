@@ -8,7 +8,12 @@ const config = Object.freeze({
   port: process.env.PORT || 3000,
   databaseURI: process.env.MONGODB_URI,
   nodeEnv: process.env.NODE_ENV || "development",
-  accessTokenSecret : process.env.JWT_SECRET
+  accessTokenSecret : process.env.JWT_SECRET,
+  // Comma-separated list of frontend URLs allowed to call the API directly
+  clientUrls: (process.env.CLIENT_URL || "")
+    .split(",")
+    .map((url) => url.trim().replace(/\/$/, ""))
+    .filter(Boolean)
 })
 
 module.exports = config;

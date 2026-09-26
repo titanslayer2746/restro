@@ -76,6 +76,8 @@ PORT=8000
 MONGODB_URI=mongodb://localhost:27017/restro
 JWT_SECRET=a-long-random-string
 NODE_ENV=development
+# Optional: frontend URLs allowed to call the API directly (comma-separated)
+CLIENT_URL=
 ```
 
 Load the starter menu (safe to run more than once — it only adds what is missing):
@@ -159,10 +161,13 @@ All routes are under `/api` and, apart from register and login, require the auth
 
 ## Deployment
 
-- **Server** — `server/render.yaml` deploys the API to Render. Set `MONGODB_URI`, `JWT_SECRET` and `NODE_ENV=production` in the Render dashboard.
-- **Client** — build with `npm run build` and host `client/dist` on any static host (Vercel, Netlify…). Set `VITE_BACKEND_URL` to the deployed API URL, and add the client's URL to the allowed origins in `server/app.js`.
+Both apps deploy to Vercel as separate projects (the server also runs on Render via `server/render.yaml`).
 
-The auth cookie is sent with `SameSite=None; Secure`, so the deployed API must be served over HTTPS.
+- **Server** (root directory `server`) — set `MONGODB_URI`, `JWT_SECRET` and `NODE_ENV=production`. `app.js` exports the Express app, so it runs on Vercel's serverless functions; locally it starts a normal server. In MongoDB Atlas, allow access from anywhere (`0.0.0.0/0`) under *Network Access*, since Vercel's IPs change.
+- **Client** (root directory `client`) — `client/vercel.json` proxies `/api/*` to the deployed server and sends every other path to `index.html`. Leave `VITE_BACKEND_URL` **unset** in the Vercel project: the browser then talks to one origin, so no CORS setup is needed and the login cookie is first-party. Update the server URL in `vercel.json` if it changes.
+- **Calling the API directly instead** — set `VITE_BACKEND_URL` to the server URL, and add the frontend URL to the server's `CLIENT_URL` variable (comma-separated for several). The auth cookie is sent with `SameSite=None; Secure`, so this needs HTTPS, and browsers that block third-party cookies may reject it — the proxy above avoids that.
+
+Never put `MONGODB_URI` or `JWT_SECRET` in the client: every `VITE_*` variable ends up in the public JavaScript.
 
 ## License
 
